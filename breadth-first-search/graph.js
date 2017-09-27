@@ -23,3 +23,10 @@ Graph.prototype.setStart = function(name) {
 Graph.prototype.setEnd = function(name) {
     return this.end = this.graph[name];
 };
+
+Graph.prototype.reset = function() {
+    this.nodes.forEach((n, i, a) => {
+	n.searched = false;
+	n.parent = null;
+    });
+};

@@ -2,19 +2,22 @@
 
 load()
     .then((MOVIE_DATA) => {
-	console.log('Initialized Movie Data');
 	console.log(MOVIE_DATA);
 	return init(MOVIE_DATA);
     })
     .then((graph) => {
 	let start = graph.setStart('Edward Norton');
 	let end = graph.setEnd('Kevin Bacon');
-	console.log('START');
-	console.log(start);
-	console.log('END');
-	console.log(end);
-	search(start, end);
+	console.log(`Start: ${start.value.name}`);
+	console.log(`End: ${end.value.name}`);
+	return search(start, end);
+    })
+    .then((result) => {
+	showResult(result);
     });
+
+
+
 
 
 function init(MOVIE_DATA) {
@@ -46,25 +49,34 @@ function init(MOVIE_DATA) {
 }
 
 function search(start, end) {
-    let queue = [];
-    
-    start.searched = true;
-    queue.push(start);
-
-    while (queue.length > 0) {
-    	let current = queue.shift();
-	if (current.value.name === end.value.name) {
-    	    console.log(`Found!! Check the parent nodes`);
-	    console.log(current);
-	    break;
-    	}
-	
-	current.edges.forEach((neighbor, i, arr) => {
-	    if (!neighbor.searched) {
-    		neighbor.searched = true;
-    		neighbor.parent = current;
-    		queue.push(neighbor);
+    return new Promise((resolve, reject) => {
+	let queue = [];
+	start.searched = true;
+	queue.push(start);
+	while (queue.length > 0) {
+    	    let current = queue.shift();
+	    if (current.value.name === end.value.name) {
+		resolve(current);
+		break;
     	    }
-	});
+	    current.edges.forEach((neighbor, i, arr) => {
+		if (!neighbor.searched) {
+    		    neighbor.searched = true;
+    		    neighbor.parent = current;
+    		    queue.push(neighbor);
+    		}
+	    });
+	}
+    });
+}
+
+function showResult(result) {
+    let path = [result];
+    let next = result.parent;
+    while (next !== null) {
+	path.push(next);
+	next = next.parent;
     }
+    path = path.reverse();
+    console.log(path);
 }
