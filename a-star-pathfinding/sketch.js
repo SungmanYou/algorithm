@@ -1,46 +1,40 @@
 'use strict';
 
-const canvasWidth = 400;
-const canvasHeight = 400;
-const cols = 10;
-const rows = 10;
+const canvasWidth = 600;
+const canvasHeight = 600;
+const cols = 50;
+const rows = 50;
 const rectWidth = canvasWidth / cols;
 const rectHeight = canvasHeight / rows;
 
 let grid = create2DArray(cols, rows);
 let start = grid[0][0];  // Top left
+start.obstacle = false;
 let end = grid[cols - 1][rows - 1]; // Bottom right
+end.obstacle = false;
 let path = [];
+let current;
 
 let openSet = [start];
 let closedSet = [];
 
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(canvasWidth, canvasHeight);
     console.log(grid);
 }
 
 function draw() {
     if (openSet.length > 0) { // Keep searching
-	
+
+	// Find the element in the openSet which has the lowest 'f' value
 	let lowestI = 0;
-	for (let i = openSet.length - 1; i >= 0; i--) {
-	    if (openSet[i].f < openSet[lowestI].f)
-		lowestI = i;
-	}
+	openSet.forEach((elem, i, arr) => {
+	    if (elem.f < openSet[lowestI].f) lowestI = i;
+	});
 	
-	let current = openSet[lowestI];
+	current = openSet[lowestI];
 	if (current === end) {
-	    // Find the path
-	    let t = current;
-	    path.push(t);
-	    while(t.prev) {
-		path.push(t.prev);
-		t = t.prev;
-	    }
-	    
-	    noLoop();
-	    console.log('Done!');
+	    noLoop(); console.log('Done!');
 	}
 
 	removeFromArray(openSet, current);
@@ -48,26 +42,37 @@ function draw() {
 
 	current.neighbors.forEach((neighbor, i , arr) => {
 	    if (closedSet.includes(neighbor)) return;
-	    
-	    let tempG = current.g + 1;
-	    if (openSet.includes(neighbor)) {
-		if (tempG < neighbor.g) neighbor.g = tempG;
-	    } else {
-		neighbor.g = tempG;
-		openSet.push(neighbor);
+	    let tempCost = current.cost + 1;
+	    if (!neighbor.obstacle) {
+		let newPath = false;
+		if (openSet.includes(neighbor)) {
+		    if (tempCost < neighbor.cost) {
+			neighbor.cost = tempCost;
+			newPath = true;
+		    }
+		} else {
+		    neighbor.cost = tempCost;
+		    newPath = true;
+		    openSet.push(neighbor);
+		}
+
+		if (newPath) {
+		    neighbor.heuristic = calcHeuristic(neighbor, end);
+		    neighbor.f = neighbor.cost + neighbor.heuristic;
+		    neighbor.prev = current;
+		}
 	    }
 
-	    neighbor.h = heuristic(neighbor, end);
-	    neighbor.f = neighbor.g + neighbor.h;
-	    neighbor.prev = current;
 	});
 	
 	
     } else { // No solution
-	
+	noLoop();
+	console.log('Failed!');
+	return;
     }
     
-    background(0);
+    background(255);
 
     // Display grid
     for (let i = 0; i < cols; i++) {
@@ -76,18 +81,55 @@ function draw() {
 	}
     }
 
-    // Display closed set
-    for (let i = 0; i < closedSet.length; i++) {
-	closedSet[i].show(color(255, 0, 0));
+    // Find the path
+    path = [];
+    let t = current;
+    path.push(t);
+    while(t.prev) {
+	path.push(t.prev);
+	t = t.prev;
     }
-
-    // Display open set
-    for (let i = 0; i < openSet.length; i++) {
-	openSet[i].show(color(0, 255, 0));
-    }
-
+    
     // Display path
+    noFill();
+    stroke(0);
+    strokeWeight(rectWidth / 2);
+    beginShape();
     for (let i = 0; i < path.length; i++) {
-	path[i].show(color(0, 0, 255));
+	vertex(path[i].col * rectWidth + rectWidth / 2, path[i].row * rectHeight + rectHeight / 2);
+    }  
+    endShape();
+}
+
+function create2DArray(cols, rows) {
+    let grid = new Array(cols);
+    for (let i = 0; i < cols; i++) {
+	grid[i] = new Array(rows);
     }
+
+    for (let i = 0; i < cols; i++) {
+	for (let j = 0; j < rows; j++) {
+	    grid[i][j] = new Spot(i, j);
+	}
+    }
+
+    for (let i = 0; i < cols; i++) {
+	for (let j = 0; j < rows; j++) {
+	    grid[i][j].addNeighbors(grid);
+	}
+    }
+    return grid;
+}
+
+function removeFromArray(array, elem) {
+    for (let i = array.length - 1; i >= 0; i--) {
+	if (array[i] === elem) {
+	    array.splice(i, 1);
+	}
+    }
+}
+
+function calcHeuristic(x, y) {
+    return dist(x.col, x.row, y.col, y.row);
+    // return abs(x.col - y.col) +  abs(x.row - y.row);
 }
