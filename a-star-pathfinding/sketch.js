@@ -2,15 +2,16 @@
 
 const canvasWidth = 600;
 const canvasHeight = 600;
-const cols = 50;
-const rows = 50;
-const rectWidth = canvasWidth / cols;
-const rectHeight = canvasHeight / rows;
+const cols = 60; // number of columns
+const rows = 60; // number of rows
+const w = canvasWidth / cols;
+const h = canvasHeight / rows;
+const density = 30;  // density of obstacle (0 ~ 100)
 
 let grid = create2DArray(cols, rows);
-let start = grid[0][0];  // Top left
+let start = grid[0][0];  // top left
 start.obstacle = false;
-let end = grid[cols - 1][rows - 1]; // Bottom right
+let end = grid[cols - 1][rows - 1]; // bottom right
 end.obstacle = false;
 let path = [];
 let current;
@@ -92,11 +93,11 @@ function draw() {
     
     // Display path
     noFill();
-    stroke(0);
-    strokeWeight(rectWidth / 2);
+    stroke(0, 0, 255);
+    strokeWeight(w / 2);
     beginShape();
     for (let i = 0; i < path.length; i++) {
-	vertex(path[i].col * rectWidth + rectWidth / 2, path[i].row * rectHeight + rectHeight / 2);
+	vertex(path[i].col * w + w / 2, path[i].row * h + h / 2);
     }  
     endShape();
 }
@@ -106,13 +107,11 @@ function create2DArray(cols, rows) {
     for (let i = 0; i < cols; i++) {
 	grid[i] = new Array(rows);
     }
-
     for (let i = 0; i < cols; i++) {
 	for (let j = 0; j < rows; j++) {
 	    grid[i][j] = new Spot(i, j);
 	}
     }
-
     for (let i = 0; i < cols; i++) {
 	for (let j = 0; j < rows; j++) {
 	    grid[i][j].addNeighbors(grid);
@@ -131,5 +130,4 @@ function removeFromArray(array, elem) {
 
 function calcHeuristic(x, y) {
     return dist(x.col, x.row, y.col, y.row);
-    // return abs(x.col - y.col) +  abs(x.row - y.row);
 }

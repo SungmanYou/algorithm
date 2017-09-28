@@ -8,7 +8,7 @@ function Spot(i, j) {
     this.heuristic = 0;
     this.neighbors = [];
     this.prev = undefined;
-    this.obstacle = (Math.random() < 0.4) ? true : false;
+    this.obstacle = (Math.random() < density / 100) ? true : false;
 }
 
 Spot.prototype.show = function(color) {
@@ -19,12 +19,10 @@ Spot.prototype.show = function(color) {
 	noStroke();
 	fill(color);
     }
-    ellipse(this.col * rectWidth + rectWidth / 2, this.row * rectHeight + rectHeight / 2, rectWidth / 2, rectHeight / 2);
-    // rect(this.col * rectWidth, this.row * rectHeight, rectWidth, rectHeight);
+    ellipse(this.col * w + w / 2, this.row * h + h / 2, w / 1.5, h / 1.5);
 };
 
 Spot.prototype.addNeighbors = function(grid) {
-
     // top left
     if (this.col > 0 && this.row > 0)
 	this.neighbors.push(grid[this.col - 1][this.row - 1]);
@@ -49,6 +47,4 @@ Spot.prototype.addNeighbors = function(grid) {
     // left
     if (this.col > 0)
 	this.neighbors.push(grid[this.col - 1][this.row]);
-
-
 };
