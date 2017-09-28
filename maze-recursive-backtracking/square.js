@@ -3,9 +3,7 @@
 function Square(i, j) {
     this.i = i;
     this.j = j;
-    this.walls = {
-	top: true, right: true, bottom: true, left: true
-    };
+    this.walls = { top: true, right: true, bottom: true, left: true };
     this.neighbors = {};
     this.visited = false;
     this.dir = '';
@@ -36,15 +34,14 @@ Square.prototype.highlight = function() {
 
 Square.prototype.getNext = function() {
     let keys = Object.keys(this.neighbors);
-    keys = keys.filter((k, i, a) => {
+    keys = keys.filter((k, i, a) => { 
 	if (!this.neighbors[k].visited) return true;
     });
     
     if (keys.length > 0) {
 	let i = Math.floor(Math.random() * keys.length);
-	let neighbor = this.neighbors[keys[i]];
 	this.dir = keys[i];
-	return neighbor;
+	return this.neighbors[keys[i]];
     }
     return undefined;
 };

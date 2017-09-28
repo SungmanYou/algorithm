@@ -2,8 +2,8 @@
 
 const canvasWidth = 600;
 const canvasHeight = 600;
-const cols = 30;
-const rows = 30;
+const cols = 4;
+const rows = 4;
 const w = canvasWidth / cols;
 const h = canvasHeight / rows;
 
