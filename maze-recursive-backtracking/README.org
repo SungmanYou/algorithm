@@ -1,2 +1,2 @@
-* Maze Generation - Recursive Backtracking (Depth First Search)
+* Maze - Recursive Backtracking (Depth First Search)
 *** http://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking
