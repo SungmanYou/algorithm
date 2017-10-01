@@ -1,6 +1,6 @@
 'use strict';
 
-function Square(i, j) {
+function Cell(i, j) {
     this.i = i;
     this.j = j;
     this.walls = { top: true, right: true, bottom: true, left: true };
@@ -9,7 +9,7 @@ function Square(i, j) {
     this.dir = '';
 }
 
-Square.prototype.display = function() {
+Cell.prototype.display = function() {
     let x = this.i * w;
     let y = this.j * h;
 
@@ -26,13 +26,13 @@ Square.prototype.display = function() {
     }
 };
 
-Square.prototype.highlight = function() {
+Cell.prototype.highlight = function() {
     noStroke();
     fill(0, 255, 0, 100);
     rect(this.i * w, this.j * h, w, h);
 };
 
-Square.prototype.getNext = function() {
+Cell.prototype.getNext = function() {
     let keys = Object.keys(this.neighbors);
     keys = keys.filter((k, i, a) => { 
 	if (!this.neighbors[k].visited) return true;
@@ -46,7 +46,7 @@ Square.prototype.getNext = function() {
     return undefined;
 };
 
-Square.prototype.getNeighbors = function() {
+Cell.prototype.getNeighbors = function() {
     this.neighbor = {};
     try {
 	this.neighbors['top'] = grid[this.j - 1][this.i];

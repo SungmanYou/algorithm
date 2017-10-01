@@ -2,7 +2,7 @@
 
 const canvasWidth = 600;
 const canvasHeight = 600;
-const length = 10;
+const length = 50;
 const w = canvasWidth / length;
 const h = canvasHeight / length;
 

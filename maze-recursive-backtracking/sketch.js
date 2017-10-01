@@ -2,21 +2,20 @@
 
 const canvasWidth = 600;
 const canvasHeight = 600;
-const cols = 10;
-const rows = 10;
+const cols = 30;
+const rows = 30;
 const w = canvasWidth / cols;
 const h = canvasHeight / rows;
 
 let grid = create2DArray(cols, rows);
 let stack = [];
-let start;
 let current;
 let next;
 
 function preload() {
     for (let i = 0; i < rows; i++) {
 	for (let j = 0; j < cols; j++) {
-	    grid[j][i]= new Square(i, j);
+	    grid[j][i]= new Cell(i, j);
 	}
     }
     for (let i = 0; i < rows; i++) {
@@ -24,19 +23,20 @@ function preload() {
 	    grid[j][i].getNeighbors();
 	}
     }
-    current = start = grid[Math.floor(Math.random() * cols)][Math.floor(Math.random() * rows)];
-    current.visited = true;
-    stack.push(current);
 }
 
 function setup() {
     createCanvas(canvasWidth, canvasHeight);
+    
+    current = grid[Math.floor(Math.random() * cols)][Math.floor(Math.random() * rows)];
+    current.visited = true;
+    stack.push(current);
 }
 
 function draw() {
     if (stack.length === 0) {
+	console.log('Done');
 	noLoop();
-	console.log('Finished');
     }
     
     background(51);
@@ -46,18 +46,24 @@ function draw() {
 	}
     }
 
+    // display current cell
     current.highlight();
+
+    // find the random adjacent cell which is not been visited yet
     next = current.getNext();
+
     if (next) {
 	next.visited = true;
 	stack.push(next);
 	removeWalls(current, next);
 	current = next;
-    } else if (stack.length > 0) {
+    }
+
+    // if there is no available next cell, the stack array
+    else if (stack.length > 0) {
 	current = stack.pop();
     }
 }
-
 
 function removeWalls(current, next) {
     switch (current.dir) {
