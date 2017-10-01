@@ -2,11 +2,10 @@
 
 load()
     .then((MOVIE_DATA) => {
-	console.log(MOVIE_DATA);
 	return init(MOVIE_DATA);
     })
     .then((graph) => {
-	let start = graph.setStart('Edward Norton');
+	let start = graph.setStart('Brad Pitt');
 	let end = graph.setEnd('Kevin Bacon');
 	console.log(`Start: ${start.value.name}`);
 	console.log(`End: ${end.value.name}`);

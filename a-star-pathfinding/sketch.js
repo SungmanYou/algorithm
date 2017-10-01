@@ -6,7 +6,7 @@ const cols = 60; // number of columns
 const rows = 60; // number of rows
 const w = canvasWidth / cols;
 const h = canvasHeight / rows;
-const density = 30;  // density of obstacle (0 ~ 100)
+const density = 50;  // density of obstacle (0 ~ 100)
 
 let grid = create2DArray(cols, rows);
 let start = grid[0][0];  // top left

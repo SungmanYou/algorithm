@@ -28,22 +28,29 @@ function load() {
 
 function getMovieList() {
     return new Promise((resolve, reject) => {
-	let xhr = new XMLHttpRequest();
-	xhr.addEventListener('readystatechange', function () {
-	    if (this.readyState === this.DONE) {
-		let movieList = [];
-		JSON.parse(this.responseText).items.forEach((item, index, arr) => {
-		    movieList.push({
-			id: item.id,
-			title: item.title,
-			poster: item.poster_path
-		    });
-		});
-		resolve(movieList);
-	    }
-	});
-	xhr.open('GET', `https://api.themoviedb.org/3/list/34691?api_key=${KEY_V3}`);
-	xhr.send();
+
+	// Get list from remote API
+	
+	// let xhr = new XMLHttpRequest();
+	// xhr.addEventListener('readystatechange', function () {
+	//     if (this.readyState === this.DONE) {
+	// 	let movieList = [];
+	// 	JSON.parse(this.responseText).items.forEach((item, index, arr) => {
+	// 	    console.log(this.responseText);
+	// 	    movieList.push({
+	// 		id: item.id,
+	// 		title: item.title,
+	// 		poster: item.poster_path
+	// 	    });
+	// 	});
+	// 	resolve(movieList);
+	//     }
+	// });
+	// xhr.open('GET', `https://api.themoviedb.org/3/list/34691?api_key=${KEY_V3}`);
+	// xhr.send();
+
+	// Get list from local sample json
+	resolve(sample.items);
     });
 }
 
