@@ -1,1 +1,1 @@
-* Series of algoriths using P5.js
+* Series of algorithms using P5.js

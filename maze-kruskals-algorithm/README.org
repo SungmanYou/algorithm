@@ -1,0 +1,3 @@
+* Maze - Kruskal's Algorithm
+*** http://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm.html
+
