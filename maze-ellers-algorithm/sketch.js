@@ -10,6 +10,7 @@ const h = canvasHeight / length;
 let grid = new Array();
 let sets = [];
 let row = 0;
+
 function setup() {
     createCanvas(canvasWidth, canvasHeight);
     initFirstRow();
@@ -30,6 +31,8 @@ function draw() {
 	noLoop();
 	return;
     }
+
+    
 
     copyPreviousRow();
     removeRightWalls();
@@ -66,7 +69,7 @@ function initFirstRow() {
 	    leftCell.right = false;
 	}
     }
-    
+
     for (let i = 0; i <newRow.length - 1; i++) {
     	let leftCell = newRow[i];
     	let rightCell = newRow[i + 1];
@@ -85,7 +88,7 @@ function initFirstRow() {
 	newRow[i].bottom = true;
     }
     arr = Object.values(arr);
-    
+
     for (let i = 0; i < arr.length; i++) {
     	let rand = Math.floor(Math.random() * arr[i].length);
     	arr[i][rand].bottom = false;

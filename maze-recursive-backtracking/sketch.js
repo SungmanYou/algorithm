@@ -46,7 +46,7 @@ function draw() {
 	}
     }
 
-    // display current cell
+    // display the position of current cell
     current.highlight();
 
     // find the random adjacent cell which is not been visited yet
@@ -59,7 +59,7 @@ function draw() {
 	current = next;
     }
 
-    // if there is no available next cell, the stack array
+    // if there is no available next cell, backtrack the stack array
     else if (stack.length > 0) {
 	current = stack.pop();
     }

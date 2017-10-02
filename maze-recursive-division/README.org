@@ -1,0 +1,3 @@
+* Maze - Recursive Division
+*** http://weblog.jamisbuck.org/2011/1/12/maze-generation-recursive-division-algorithm.html
+
