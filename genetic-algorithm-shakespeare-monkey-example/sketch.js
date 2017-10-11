@@ -3,12 +3,12 @@
 
 const mutation_rate = 0.01;
 const total_population = 200;
-const target_phrase = 'To be or not to be.';
+const target_phrase = 'To be or not to be..';
 
 let population;
 
 function setup() {
-    createCanvas(1200, 600);
+    createCanvas(1200, 800);
     
     population = new Population({
 	target_phrase: target_phrase,
@@ -47,11 +47,11 @@ function display() {
     text(answer, 20, 200);
 
     textSize(18);
-    text("Total Generations   "+ population.getGeneration(), 20, 300);
+    text("Total Generations   " + population.generation, 20, 300);
     text("Average Fitness   " + (population.getAverageFitness() * 100).toFixed(2) + "%", 20, 320);
     text("Total Population   " + total_population, 20, 340);
     text("Mutation Rate   " + mutation_rate * 100 + "%", 20, 360);
     
     textSize(10);
-    text("All phrases:\n" + population.getAllPhrases(), 500, 10);
+    text(population.getAllPhrases(), 480, 10);
 }

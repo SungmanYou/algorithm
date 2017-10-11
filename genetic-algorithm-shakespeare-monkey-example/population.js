@@ -77,14 +77,6 @@ Population.prototype.getBest = function() {
     return this.population[index].getPhrase();
 };
 
-Population.prototype.isFinished = function() {
-    return this.finished;
-};
-
-Population.prototype.getGeneration = function() {
-    return this.generation;
-};
-
 Population.prototype.getAverageFitness = function() {
     let total = 0;
     for (let i = 0; i < this.population.length; i++) {
