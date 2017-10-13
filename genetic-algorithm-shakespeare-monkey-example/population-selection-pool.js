@@ -10,7 +10,7 @@ class Population {
 	    this.population[i] = new DNA(this.target_phrase.length);
 	}
 	this.calcFitness();
-	this.matingPool = new Array();
+	this.selectionPool = new Array();
 	this.finished = false;
 	this.generation = 0;
 	this.perfectScore = 1;
@@ -25,7 +25,7 @@ Population.prototype.calcFitness = function() {
 };
 
 Population.prototype.naturalSelection = function() {
-    this.matingPool = [];
+    this.selectionPool = [];
 
     let highestFitness = 0;
     for (let i = 0; i < this.population.length; i++) {
@@ -43,17 +43,17 @@ Population.prototype.naturalSelection = function() {
 
 	let n = fitness * 100;
 	for (let j = 0; j < n; j++) {
-	    this.matingPool.push(this.population[i]);
+	    this.selectionPool.push(this.population[i]);
 	}
     }
 };
 
 Population.prototype.generate = function() {
     for (let i = 0; i < this.population.length; i++) {
-	let a = Math.floor(Math.random() * this.matingPool.length);
-	let b = Math.floor(Math.random() * this.matingPool.length);
-	let partnerA = this.matingPool[a];
-	let partnerB = this.matingPool[b];
+	let a = Math.floor(Math.random() * this.selectionPool.length);
+	let b = Math.floor(Math.random() * this.selectionPool.length);
+	let partnerA = this.selectionPool[a];
+	let partnerB = this.selectionPool[b];
 	let child = partnerA.crossover(partnerB);
 	child.mutate(this.mutation_rate);
 	this.population[i] = child;
