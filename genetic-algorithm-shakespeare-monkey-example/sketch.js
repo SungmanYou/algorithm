@@ -20,14 +20,14 @@ function setup() {
 function draw() {
 
     // 1. selection pool algorithm
-    population.naturalSelection();
-    population.generate();
-    population.calcFitness();
-
-
-    // 2. roulette wheel algorithm
-    // population.generate();
+    // population.createSelectionPool();
+    // population.createNextGeneration();
     // population.calcFitness();
+
+    
+    // 2. roulette wheel algorithm
+    population.createNextGeneration();
+    population.calcFitness();
 
     display();
     

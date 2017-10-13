@@ -24,7 +24,7 @@ Population.prototype.calcFitness = function() {
     }
 };
 
-Population.prototype.naturalSelection = function() {
+Population.prototype.createSelectionPool = function() {
     this.selectionPool = [];
 
     let highestFitness = 0;
@@ -48,7 +48,7 @@ Population.prototype.naturalSelection = function() {
     }
 };
 
-Population.prototype.generate = function() {
+Population.prototype.createNextGeneration = function() {
     for (let i = 0; i < this.population.length; i++) {
 	let a = Math.floor(Math.random() * this.selectionPool.length);
 	let b = Math.floor(Math.random() * this.selectionPool.length);

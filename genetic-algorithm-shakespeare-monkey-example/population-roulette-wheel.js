@@ -32,10 +32,10 @@ Population.prototype.randomPick = function(sum) {
     }
     index--;
     return this.population[index];
-}
+};
 
 
-Population.prototype.generate = function() {
+Population.prototype.createNextGeneration = function() {
 
     let new_population = [];
 
@@ -44,7 +44,7 @@ Population.prototype.generate = function() {
     for (let i = 0; i < this.population.length; i++) {
 	total_fitness += this.population[i].fitness;
     }
-
+    
     for (let i = 0; i < this.population.length; i++) {
 	let parent_a = this.randomPick(total_fitness);
 	let parent_b = this.randomPick(total_fitness);
