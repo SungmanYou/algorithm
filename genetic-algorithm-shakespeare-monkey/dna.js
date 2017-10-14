@@ -1,6 +1,5 @@
 'use strict';
 
-
 class DNA {
     constructor(num) {
 	this.genes = new Array(num);

@@ -2,7 +2,7 @@
 
 
 const mutation_rate = 0.01;
-const total_population = 1000;
+const total_population = 300;
 const target_phrase = 'To be or not to be..';
 
 let population;
@@ -18,13 +18,11 @@ function setup() {
 }
 
 function draw() {
-
     // 1. selection pool algorithm
     // population.createSelectionPool();
     // population.createNextGeneration();
     // population.calcFitness();
 
-    
     // 2. roulette wheel algorithm
     population.createNextGeneration();
     population.calcFitness();

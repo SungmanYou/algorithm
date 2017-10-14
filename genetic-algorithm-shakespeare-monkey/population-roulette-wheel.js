@@ -23,6 +23,7 @@ Population.prototype.calcFitness = function() {
     }
 };
 
+
 Population.prototype.randomPick = function(sum) {
     let rand = Math.random() * sum;
     let index = 0;
