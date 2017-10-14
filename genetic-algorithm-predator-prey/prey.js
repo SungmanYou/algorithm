@@ -23,8 +23,8 @@ class Prey {
 	
 	this.life = random(1, 3);
 	this.size = 2;
-	this.max_speed = random(3, 5);
-	this.max_force = random(0, 2);
+	this.max_speed = random(1, 5);
+	this.max_force = random(0, 1);
     }
 
     isDead() { 
@@ -45,11 +45,13 @@ class Prey {
 	let mate_steer_force = this.contact('mate', ma, this.genes.mate_range);
 	let predator_steer_force = this.contact('predator', pr, this.genes.predator_range);
 
+	
 	food_steer_force.mult(this.genes.food_weight);
 	poison_steer_force.mult(this.genes.poison_weight);
 	mate_steer_force.mult(this.genes.mate_weight);
 	predator_steer_force.mult(this.genes.predator_weight);
 
+	
 	this.acceleration.add(food_steer_force);
 	this.acceleration.add(poison_steer_force);
 	this.acceleration.add(mate_steer_force);
