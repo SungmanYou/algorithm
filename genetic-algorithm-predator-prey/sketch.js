@@ -7,7 +7,7 @@ const food_update_rate = 0.1;
 const poison_update_rate = 0.01;
 const predator_update_rate = 0.001;
 
-const total_preys = 15;
+const total_preys = 50;
 const total_foods = 15;
 const total_poisons = 15;
 const total_predators = 2;
@@ -17,8 +17,11 @@ let foods = [];
 let poisons = [];
 let predators = [];
 
+let debug;
+
 function setup() {
     createCanvas(canvasWidth, canvasHeight);
+    debug = createCheckbox('Visualize genes');
     for (let i = 0; i < total_preys; i++) {
 	preys.push(new Prey());
     }
@@ -68,8 +71,8 @@ function draw() {
     let best_prey = get_best_prey();
     if (best_prey) {
 	fill(255);
-	textSize(20);
-	text('LIFE : ' + best_prey.life.toFixed(1), best_prey.position.x, best_prey.position.y);
+	textSize(15);
+	text('BEST ' + best_prey.life.toFixed(1), best_prey.position.x, best_prey.position.y);
     }
 }
 

@@ -3,7 +3,7 @@
 const mutation_rate = 0.001;
 const reproduce_rate = 0.001;
 const loss_per_frame = 0.01;
-const edge_constraint = 15; // using in boundaries function
+const edge_constraint = 5; // boundaries
 
 class Prey {
     constructor() {
@@ -158,10 +158,10 @@ class Prey {
 	translate(this.position.x, this.position.y);
 	rotate(angle);
 
-	let c = lerpColor(color(255, 0, 0), color(0, 255, 0), this.life);
+	let c = lerpColor(color(255, 0, 0), color(0, 0, 255), this.life);
 	fill(c);
-	stroke(c);
-	strokeWeight(1);
+	stroke(255);
+	strokeWeight(0.5);
 	
 	beginShape();
 	vertex(0, -this.size * 2);
@@ -169,21 +169,22 @@ class Prey {
 	vertex(this.size, this.size * 2);
 	endShape(CLOSE);
 
-	// visualize the genes
-	noFill();
-	stroke(0, 255, 0);
-	line(0, 0, 0, -this.genes.food_weight * 50);
-	ellipse(0, 0, this.genes.food_range * 2);
-	stroke(255, 0, 0);
-	line(0, 0, 0, -this.genes.poison_weight * 50);
-	ellipse(0, 0, this.genes.poison_range * 2);
-	stroke(0, 0, 255);
-	line(0, 0, 0, -this.genes.mate_weight * 50);
-	ellipse(0, 0, this.genes.mate_range * 2);
-	stroke(255, 255, 0);
-	line(0, 0, 0, -this.genes.predator_weight * 50);
-	ellipse(0, 0, this.genes.predator_range * 2);
-
+	if (debug.checked()) {
+	    // visualize the genes
+	    noFill();
+	    stroke(0, 255, 0);
+	    line(0, 0, 0, -this.genes.food_weight * 50);
+	    ellipse(0, 0, this.genes.food_range * 2);
+	    stroke(255, 0, 0);
+	    line(0, 0, 0, -this.genes.poison_weight * 50);
+	    ellipse(0, 0, this.genes.poison_range * 2);
+	    stroke(0, 0, 255);
+	    line(0, 0, 0, -this.genes.mate_weight * 50);
+	    ellipse(0, 0, this.genes.mate_range * 2);
+	    stroke(255, 255, 0);
+	    line(0, 0, 0, -this.genes.predator_weight * 50);
+	    ellipse(0, 0, this.genes.predator_range * 2);
+	}
 	pop();
     }
 }
