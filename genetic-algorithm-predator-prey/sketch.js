@@ -1,16 +1,17 @@
 'use strict';
 
-const canvasWidth = 1000;
+const canvasWidth = 1200;
 const canvasHeight = 600;
 
-const food_update_rate = 0.1;
+const food_update_rate = 0.3;
 const poison_update_rate = 0.01;
 const predator_update_rate = 0.001;
 
-const total_preys = 50;
-const total_foods = 15;
-const total_poisons = 15;
-const total_predators = 2;
+const total_preys = 100;
+const total_predators = 5;
+const total_foods = 200;
+const total_poisons = 50;
+
 
 let preys = [];
 let foods = [];
@@ -24,6 +25,9 @@ function setup() {
     debug = createCheckbox('Visualize genes');
     for (let i = 0; i < total_preys; i++) {
 	preys.push(new Prey());
+    }
+    for (let i = 0; i < total_predators; i++) {
+	predators.push(new Predator());
     }
     for (let i = 0; i < total_foods; i++) {
 	foods.push(new Item({ type: 'food', score: Math.random() }));
@@ -56,7 +60,7 @@ function draw() {
     }
 
     // preys
-    for (let i = preys.length - 1; i >= 0; i--) { // iterate backwards to avoid the index issue in splicing an array
+    for (let i = preys.length - 1; i >= 0; i--) {
 	if (preys[i].isDead()) { // this.life <= 0
 	    preys.splice(i, 1);
 	} else {
@@ -67,12 +71,34 @@ function draw() {
 	}
     }
 
+    // predators
+    for (let i = predators.length - 1; i >= 0; i--) {
+	if (predators[i].isDead()) { // this.life <= 0
+	    predators.splice(i, 1);
+	} else {
+	    predators[i].boundaries();
+	    predators[i].behaviors(poisons, preys);
+	    predators[i].update();
+	    predators[i].display();
+	}
+    }
+
     // get best
     let best_prey = get_best_prey();
+    let best_predator = get_best_predator();
     if (best_prey) {
 	fill(255);
 	textSize(15);
 	text('BEST ' + best_prey.life.toFixed(1), best_prey.position.x, best_prey.position.y);
+	// text('X ' + best_prey.position.x.toFixed(1), best_prey.position.x, best_prey.position.y + 20);
+	// text('Y ' + best_prey.position.y.toFixed(1), best_prey.position.x, best_prey.position.y + 40);
+    }
+    if (best_predator) {
+	fill(255);
+	textSize(15);
+	text('BEST ' + best_predator.life.toFixed(1), best_predator.position.x, best_predator.position.y);
+	// text('X ' + best_predator.position.x.toFixed(1), best_predator.position.x, best_predator.position.y + 20);
+	// text('Y ' + best_predator.position.y.toFixed(1), best_predator.position.x, best_predator.position.y + 40);
     }
 }
 
@@ -84,4 +110,14 @@ function get_best_prey() {
 	}
     }
     return preys[best];
+}
+
+function get_best_predator() {
+    let best = 0;
+    for (let i = 0; i < predators.length; i++) {
+	if (predators[i].life > predators[best].life) {
+	    best = i;
+	}
+    }
+    return predators[best];
 }
